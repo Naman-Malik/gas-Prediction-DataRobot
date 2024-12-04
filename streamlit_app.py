@@ -157,52 +157,32 @@ try:
         col2.metric("Average Predicted Price", f"${avg_predicted:.2f}")
         col3.metric("Mean Absolute Error (MAE)", f"${mae:.2f}")
         
-        # Date Filter Section
-        st.subheader("Filter Data by Date")
-        min_date = pd.to_datetime(data[date].min())  # Minimum date from the dataset
-        max_date = pd.to_datetime(data[date].max())  # Maximum date from the dataset
-
-        # Add a date range slider
-        start_date, end_date = st.slider(
-            "Select Date Range:",
-            min_value=min_date,
-            max_value=max_date,
-            value=(min_date, max_date),
-            format="MM/DD/YYYY"
-        )
-
-        # Filter the data based on the selected date range
-        filtered_data = data[
-            (pd.to_datetime(data[date]) >= start_date) & (pd.to_datetime(data[date]) <= end_date)
-        ]
-
-        # Display filtered data
-        st.write("Filtered Data Preview:")
-        st.dataframe(filtered_data)
-
-        # Update the line chart with the filtered data
-        st.subheader("Line Chart: Actual vs Predicted Gasoline Prices (Filtered by Date)")
-        fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(filtered_data[date], filtered_data[actual_col], label="Actual Price", color="blue", marker='o')
-        ax.plot(filtered_data[date], filtered_data[predicted_col], label="Predicted Price", color="orange", linestyle='--', marker='x')
-        ax.set_title("Actual vs Predicted Gasoline Prices")
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Price (Dollars per Gallon)")
-        ax.legend()
-        st.pyplot(fig)
-        st.write("This line chart compares the Actual Prices and Predicted Prices of gasoline over time, filtered by the selected date range.")
-
-        # Update the residual plot with the filtered data
-        st.subheader("Residual Plot (Prediction Errors - Filtered by Date)")
-        residuals = filtered_data[actual_col] - filtered_data[predicted_col]
-        fig, ax = plt.subplots(figsize=(10, 6))
-        sns.scatterplot(x=filtered_data[date], y=residuals, ax=ax, color="red")
-        ax.axhline(0, color="black", linestyle="--", linewidth=1)
-        ax.set_title("Residuals Over Time (Filtered by Date)")
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Residuals (Actual - Predicted)")
-        st.pyplot(fig)
-        st.write("The residual plot visualizes the prediction errors over time for the selected date range.")
+        col1, col2 = st.columns(2)
+        # Line Chart: Actual vs Predicted Prices
+        with col1:
+            st.subheader("Line Chart: Actual vs Predicted Gasoline Prices")
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.plot(data[date], data[actual_col], label="Actual Price", color="blue", marker='o')
+            ax.plot(data[date], data[predicted_col], label="Predicted Price", color="orange", linestyle='--', marker='x')
+            ax.set_title("Actual vs Predicted Gasoline Prices")
+            ax.set_xlabel("Date")
+            ax.set_ylabel("Price (Dollars per Gallon)")
+            ax.legend()
+            st.pyplot(fig)
+            st.write("This line chart compares the Actual Prices and Predicted Prices of gasoline over time, helping identify trends and discrepancies. The blue line represents actual prices, while the orange dashed line shows predictions, enabling performance evaluation of the predictive model.")
+        
+        with col2:
+            # Residuals Plot
+            st.subheader("Residual Plot (Prediction Errors)")
+            residuals = data[actual_col] - data[predicted_col]
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sns.scatterplot(x=data[date], y=residuals, ax=ax, color="red")
+            ax.axhline(0, color="black", linestyle="--", linewidth=1)
+            ax.set_title("Residuals Over Time")
+            ax.set_xlabel("Date")
+            ax.set_ylabel("Residuals (Actual - Predicted)")
+            st.pyplot(fig)
+            st.write("The residual plot visualizes the prediction errors (difference between actual and predicted prices) over time. Points above or below the zero line indicate overprediction or underprediction, highlighting the accuracy and bias of the model.")
 
         # Comparison Heatmap
         st.subheader("Correlation Heatmap of Selected Columns")
@@ -276,8 +256,9 @@ try:
             ax.set_ylabel("Fuel Type")
             st.pyplot(fig)
             st.write("This bar chart compares the average sales or deliveries of various gasoline types by prime suppliers. The fuel types are listed on the vertical axis, while the horizontal axis represents the average amount sold or delivered (in thousand gallons per day), with the chart sorted by sales volume.")
-    else:
-        st.error(f"The required columns are not in the file. Ensure the file contains '{actual_col}' and '{predicted_col}'.")
+
+
+    
 except FileNotFoundError:
     st.error("The specified file could not be found. Please check the file path.")
 except Exception as e:
