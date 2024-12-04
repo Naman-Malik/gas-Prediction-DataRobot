@@ -8,6 +8,10 @@ from constants import *
 from utils import initiate_session_state
 import seaborn as sns
 import tempfile
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Basic application page configuration, modify values in `constants.py`
 st.set_page_config(page_title=I18N_APP_NAME, page_icon=APP_FAVICON, layout="wide",
@@ -33,13 +37,23 @@ def start_streamlit():
 if __name__ == "__main__":
     start_streamlit()
 
+# dr.Client(
+#     endpoint="https://app.datarobot.com/api/v2",
+#     token="Njc0ZTk3NzkwMmZlZWJhZmRjNzk2YTA3OkNvOTNUR3Nsek9RaGxwUllHZVJ6QlMxSjVCeFE5TFg4b2lmdURyQU1CWDg9",
+# )
+
 dr.Client(
-    endpoint="https://app.datarobot.com/api/v2",
-    token="Njc0ZTk3NzkwMmZlZWJhZmRjNzk2YTA3OkNvOTNUR3Nsek9RaGxwUllHZVJ6QlMxSjVCeFE5TFg4b2lmdURyQU1CWDg9",
+    endpoint=os.getenv("DATAROBOT_API_ENDPOINT"),
+    token=os.getenv("DATAROBOT_API_TOKEN"),
 )
 
 # deployment_id = "674eb2d6b41d83844bb2316d"
-deployment_id = "6746e98f6f60d517726b32cd"
+
+
+
+# deployment_id = "6746e98f6f60d517726b32cd"
+
+deployment_id = os.getenv("DEPLOYMENT_ID")
 
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
@@ -122,7 +136,7 @@ try:
         st.header("Gasoline Price Predictor Dashboard")
         st.subheader("Data Preview:")
         # st.dataframe(data[[date, actual_col, predicted_col]])
-        st.dataframe(data[date,actual_col,predicted_col])
+        st.dataframe(data[[date,actual_col,predicted_col]])
         
         # KPI Cards
         st.subheader("Key Performance Indicators (KPIs):")
