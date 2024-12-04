@@ -20,11 +20,11 @@ st.set_page_config(page_title=I18N_APP_NAME, page_icon=APP_FAVICON, layout="wide
 # st.set_page_config(layout="wide")
 
 def start_streamlit():
-    initiate_session_state()
+    # initiate_session_state()
 
     # Setup DR client
     # set_client(Client(token=st.session_state.token, endpoint=st.session_state.endpoint))
-    set_client(Client(token=st.session_state.token, endpoint=st.session_state.endpoint))
+    # set_client(Client(token=st.session_state.token, endpoint=st.session_state.endpoint))
 
     st.logo(APP_LOGO)
     st.header('Gasoline Price Predictor')
@@ -38,10 +38,10 @@ def start_streamlit():
 if __name__ == "__main__":
     start_streamlit()
 
-# dr.Client(
-#     endpoint="https://app.datarobot.com/api/v2",
-#     token="Njc0ZTk3NzkwMmZlZWJhZmRjNzk2YTA3OkNvOTNUR3Nsek9RaGxwUllHZVJ6QlMxSjVCeFE5TFg4b2lmdURyQU1CWDg9",
-# )
+dr.Client(
+    endpoint="https://app.datarobot.com/api/v2",
+    token="Njc0ZTk3NzkwMmZlZWJhZmRjNzk2YTA3OkNvOTNUR3Nsek9RaGxwUllHZVJ6QlMxSjVCeFE5TFg4b2lmdURyQU1CWDg9",
+)
 
 # dr.Client(
 #     endpoint=st.secrets["DATAROBOT_API_ENDPOINT"],
