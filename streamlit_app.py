@@ -23,6 +23,7 @@ def start_streamlit():
     initiate_session_state()
 
     # Setup DR client
+    # set_client(Client(token=st.session_state.token, endpoint=st.session_state.endpoint))
     set_client(Client(token=st.session_state.token, endpoint=st.session_state.endpoint))
 
     st.logo(APP_LOGO)
@@ -42,10 +43,10 @@ if __name__ == "__main__":
 #     token="Njc0ZTk3NzkwMmZlZWJhZmRjNzk2YTA3OkNvOTNUR3Nsek9RaGxwUllHZVJ6QlMxSjVCeFE5TFg4b2lmdURyQU1CWDg9",
 # )
 
-dr.Client(
-    endpoint=st.secrets["DATAROBOT_API_ENDPOINT"],
-    token=st.secrets["DATAROBOT_API_TOKEN"],
-)
+# dr.Client(
+#     endpoint=st.secrets["DATAROBOT_API_ENDPOINT"],
+#     token=st.secrets["DATAROBOT_API_TOKEN"],
+# )
 
 # dr.Client(
 #     endpoint=os.getenv("DATAROBOT_API_ENDPOINT"),
