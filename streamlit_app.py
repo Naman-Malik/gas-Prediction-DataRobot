@@ -47,6 +47,11 @@ dr.Client(
     token=st.secrets["DATAROBOT_API_TOKEN"],
 )
 
+# dr.Client(
+#     endpoint=os.getenv("DATAROBOT_API_ENDPOINT"),
+#     token=os.getenv("DATAROBOT_API_TOKEN"),
+# )
+
 # deployment_id = "674eb2d6b41d83844bb2316d"
 
 
@@ -54,6 +59,8 @@ dr.Client(
 # deployment_id = "6746e98f6f60d517726b32cd"
 
 deployment_id = st.secrets["DEPLOYMENT_ID"]
+
+# deployment_id = os.getenv("DEPLOYMENT_ID")
 
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
