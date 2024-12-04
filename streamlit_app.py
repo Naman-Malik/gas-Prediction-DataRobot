@@ -9,9 +9,9 @@ from utils import initiate_session_state
 import seaborn as sns
 import tempfile
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 # Basic application page configuration, modify values in `constants.py`
 st.set_page_config(page_title=I18N_APP_NAME, page_icon=APP_FAVICON, layout="wide",
